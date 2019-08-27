@@ -16,6 +16,7 @@
 
 package org.wso2.integration.util;
 
+import org.ballerinalang.langserver.SnippetGenerator;
 import org.wso2.integration.ballerinalangserver.SnippetsBlock;
 import org.wso2.integration.ballerinalangserver.SnippetsGenerator;
 
@@ -39,7 +40,14 @@ public enum Snippets {
     DEF_RESOURCE_S3_DELETE_BUCKET(SnippetsGenerator.getS3DeleteBucketResourceSnippet()),
     DEF_CLIENT_CONFIG_AMAZONS3(SnippetsGenerator.getAmazonS3ConfigSnippet()),
     DEF_CLIENT_AMAZONS3(SnippetsGenerator.getAmazonS3ClientSnippet()),
-    DEF_ERROR_HANDLING(SnippetsGenerator.getRespondAndHandleError());
+    DEF_ERROR_HANDLING(SnippetsGenerator.getRespondAndHandleError()),
+
+        STMT_TRANSACTION(SnippetsGenerator.getTransactionStatementSnippet()),
+        STMT_IF(SnippetsGenerator.getIfStatementSnippet()),
+        STMT_ELSE_IF(SnippetsGenerator.getElseIfStatementSnippet()),
+        STMT_ELSE(SnippetsGenerator.getElseStatementSnippet());
+
+
 
     private String snippetName;
     private SnippetsBlock snippetBlock;

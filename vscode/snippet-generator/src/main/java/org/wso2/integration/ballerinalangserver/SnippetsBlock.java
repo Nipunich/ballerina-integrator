@@ -34,7 +34,7 @@ public class SnippetsBlock {
     private SnippetType snippetType;
     private final Pair<String, String>[] imports;
 
-    public SnippetsBlock(String snippet, SnippetsBlock.SnippetType snippetType) {
+    public SnippetsBlock(String anElse, String snippet, SnippetType snippetType) {
         this.snippet = snippet;
         this.snippetType = snippetType;
         this.imports = null;

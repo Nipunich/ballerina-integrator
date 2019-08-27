@@ -45,4 +45,13 @@ public class ItemResolverConstants {
     //Error Handling constructs
     public static final String RESPOND_AND_HANDLE_ERROR = "handleError";
 
+    public static final String IF = "if";
+    public static final String ELSE = "else";
+    public static final String ELSE_IF = "else if";
+    public static final String TRANSACTION = "transaction";
+    public static final String WHILE = "while";
+    public static final String FOREACH = "foreach";
+
+    public static final String STATEMENT_TYPE = "Statement";
+
 }

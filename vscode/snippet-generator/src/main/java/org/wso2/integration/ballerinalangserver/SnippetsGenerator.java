@@ -18,7 +18,9 @@ package org.wso2.integration.ballerinalangserver;
 
 //import integration.ballerinalang.langserver.SnippetsBlock.SnippetType;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.ballerinalang.langserver.SnippetBlock;
 import org.ballerinalang.langserver.common.utils.CommonUtil;
+
 
 public class SnippetsGenerator {
 
@@ -321,4 +323,51 @@ public class SnippetsGenerator {
                                  ItemResolverConstants.SNIPPET_TYPE, SnippetsBlock.SnippetType.SNIPPET, logImport);
     }
 
+        /**
+     * Get If Statement Snippet Block.
+     *
+     * @return {@link SnippetsBlock}     Generated Snippet Block
+     */
+    public static SnippetsBlock getIfStatementSnippet() {
+        String snippet = "if (${1:true}) {" + CommonUtil.LINE_SEPARATOR + "\t${2}" + CommonUtil.LINE_SEPARATOR + "}";
+        return new SnippetsBlock(ItemResolverConstants.IF, snippet, ItemResolverConstants.STATEMENT_TYPE,
+                                 SnippetsBlock.SnippetType.STATEMENT);
+    }
+
+       /**
+     * Get Transaction Statement Snippet Block.
+     *
+     * @return {@link SnippetsBlock}     Generated Snippet Block
+     */
+    public static SnippetsBlock getTransactionStatementSnippet() {
+        String snippet = "transaction with retries = ${1:0} {" + CommonUtil.LINE_SEPARATOR
+                + "\t${2}" + CommonUtil.LINE_SEPARATOR + "} onretry {" + CommonUtil.LINE_SEPARATOR + "\t${3}"
+                + CommonUtil.LINE_SEPARATOR + "}";
+        return new SnippetsBlock(ItemResolverConstants.TRANSACTION, snippet, ItemResolverConstants.STATEMENT_TYPE,
+                                SnippetsBlock.SnippetType.STATEMENT);
+    }
+
+
+    /**
+     * Get Else If Snippet Block.
+     *
+     * @return {@link SnippetBlock}     Generated Snippet Block
+     */
+    public static SnippetsBlock getElseIfStatementSnippet() {
+        String snippet = "else if (${1:true}) {" + CommonUtil.LINE_SEPARATOR + "\t${2}"
+                + CommonUtil.LINE_SEPARATOR + "}";
+        return new SnippetsBlock(ItemResolverConstants.ELSE_IF, snippet, ItemResolverConstants.STATEMENT_TYPE,
+                                SnippetsBlock.SnippetType.STATEMENT);
+    }
+
+    /**
+     * Get Else Snippet Block.
+     *
+     * @return {@link SnippetBlock}     Generated Snippet Block
+     */
+    public static SnippetsBlock getElseStatementSnippet() {
+        String snippet = "else {" + CommonUtil.LINE_SEPARATOR + "\t${1}" + CommonUtil.LINE_SEPARATOR + "}";
+        return new SnippetsBlock(ItemResolverConstants.ELSE, ItemResolverConstants.STATEMENT_TYPE,
+                                SnippetsBlock.SnippetType.STATEMENT);
+    }
 }
