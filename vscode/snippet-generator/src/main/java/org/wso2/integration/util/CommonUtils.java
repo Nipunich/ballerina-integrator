@@ -19,7 +19,9 @@ package org.wso2.integration.util;
 import org.antlr.v4.runtime.CommonToken;
 import org.apache.commons.lang3.StringUtils;
 import org.ballerinalang.langserver.common.CommonKeys;
+import org.ballerinalang.langserver.common.utils.CommonUtil;
 import org.ballerinalang.langserver.compiler.LSContext;
+import org.ballerinalang.langserver.completions.SymbolInfo;
 import org.ballerinalang.langserver.completions.util.ItemResolverConstants;
 import org.ballerinalang.langserver.index.dto.BPackageSymbolDTO;
 import org.ballerinalang.model.elements.PackageID;
@@ -31,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.ballerinalang.compiler.semantics.model.symbols.BAnnotationSymbol;
 import org.wso2.ballerinalang.compiler.semantics.model.symbols.BInvokableSymbol;
+import org.wso2.ballerinalang.compiler.semantics.model.symbols.BOperatorSymbol;
 import org.wso2.ballerinalang.compiler.semantics.model.symbols.BSymbol;
 import org.wso2.ballerinalang.compiler.semantics.model.types.*;
 import org.wso2.ballerinalang.compiler.tree.BLangImportPackage;
@@ -45,6 +48,7 @@ import org.wso2.ballerinalang.util.Flags;
 import java.io.File;
 import java.util.*;
 import java.util.function.BiFunction;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class CommonUtils {
@@ -71,6 +75,25 @@ public class CommonUtils {
         BALLERINA_HOME = System.getProperty("ballerina.home");
     }
 
+        public static boolean symbolContainsInvalidChars(BSymbol bSymbol) {
+        List<String> symbolNameComponents = Arrays.asList(bSymbol.getName().getValue().split("\\."));
+        String symbolName = CommonUtil.getLastItem(symbolNameComponents);
+
+        return symbolName != null && (symbolName.contains(CommonKeys.LT_SYMBOL_KEY)
+                || symbolName.contains(CommonKeys.GT_SYMBOL_KEY)
+                || symbolName.contains(CommonKeys.DOLLAR_SYMBOL_KEY)
+                || symbolName.equals("main")
+                || symbolName.endsWith(".new")
+                || symbolName.startsWith("0"));
+    }
+
+    public static boolean isInvalidSymbol(BSymbol symbol) {
+        return ("_".equals(symbol.name.getValue())
+                || "runtime".equals(symbol.getName().getValue())
+                || symbol instanceof BAnnotationSymbol
+                || symbol instanceof BOperatorSymbol
+                || symbolContainsInvalidChars(symbol));
+    }
     private CommonUtils() {
     }
 
@@ -745,5 +768,14 @@ public class CommonUtils {
         return result.toString();
     }
 
-
+        /**
+     * Predicate to check for the invalid symbols.
+     *
+     * @return {@link Predicate}    Predicate for the check
+     */
+    public static Predicate<SymbolInfo> invalidSymbolsPredicate() {
+        return symbolInfo -> !symbolInfo.isCustomOperation()
+                && symbolInfo.getScopeEntry() != null
+                && isInvalidSymbol(symbolInfo.getScopeEntry().symbol);
+    }
 }

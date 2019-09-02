@@ -15,12 +15,13 @@ import org.wso2.ballerinalang.compiler.tree.statements.BLangForkJoin;
 import org.wso2.ballerinalang.compiler.tree.statements.BLangIf;
 import org.wso2.integration.util.Snippets;
 import org.wso2.integration.util.CompletionKey;
+import org.ballerinalang.langserver.completions.util.filters.StatementTemplateFilter;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class StatementTemplate extends AbstractSymbolFilter {
+public class StatementTemplate extends StatementTemplateFilter {
     @Override
     public Either<List<CompletionItem>, List<SymbolInfo>> filterItems(LSContext context) {
         ArrayList<CompletionItem> completionItemsArr = new ArrayList<>();
