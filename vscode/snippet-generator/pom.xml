@@ -31,7 +31,10 @@
     <groupId>org.wso2.ballerina-integrator</groupId>
     <artifactId>ballerina-integrator-vscode-plugin</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <modules>
+        <module>ballerina-integrator-snippet-generator</module>
+    </modules>
+    <packaging>pom</packaging>
 
     <dependencies>
         <dependency>
