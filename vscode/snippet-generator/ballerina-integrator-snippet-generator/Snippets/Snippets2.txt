@@ -1,0 +1,11 @@
+SnippetName -  ResourceDefinitionSnippet()
+Trigger - "service/https"
+Imports - "ballerina/http", "ballerina/web"
+Snippet - "service ${serviceName} on new grpc:Listener(9094) {
+resource function ${newResource}(grpc:Caller caller, string request) {
+
+
+
+
+    }
+}"

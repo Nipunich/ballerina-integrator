@@ -14,7 +14,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package org.wso2.integration.ballerinalangserver;
+package org.wso2.integration.snippetgenerator;
 
 public class ItemResolverConstants {
 

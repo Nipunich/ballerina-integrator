@@ -1,0 +1,8 @@
+SnippetName -  HttpResourceDefinitionSnippet()
+Trigger - "service/http"
+Imports - "ballerina/http", "ballerina/websub"
+Snippet - "service ${serviceName} on new grpc:Listener(9092) {
+resource function ${newResource}(grpc:Caller caller, string request) {
+
+    }
+}"

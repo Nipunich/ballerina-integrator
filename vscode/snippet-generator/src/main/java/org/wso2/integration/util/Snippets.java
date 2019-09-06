@@ -19,6 +19,7 @@ package org.wso2.integration.util;
 import org.wso2.integration.ballerinalangserver.SnippetsBlock;
 import org.wso2.integration.ballerinalangserver.SnippetsGenerator;
 
+
     /**
      * Snippets for the Ballerina Integrator.
      */

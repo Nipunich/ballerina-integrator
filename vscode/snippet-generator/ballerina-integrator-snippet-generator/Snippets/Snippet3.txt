@@ -1,0 +1,12 @@
+SnippetName - SampleSnippet()
+Trigger - "service/grpc"
+Imports - "ballerina/io", "ballerina/log"
+Snippet - "service ${serviceN} on new grpc:Listener(9097) {
+resource function ${newResource}(grpc:Caller call, string requ) {
+
+
+
+
+
+    }
+}"

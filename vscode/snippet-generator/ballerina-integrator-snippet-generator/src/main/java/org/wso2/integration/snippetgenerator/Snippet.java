@@ -15,6 +15,14 @@ public class Snippet {
         this.code = code;
     }
 
+    public Snippet() {
+
+    }
+
+    public Snippet(String trigger) {
+        this.trigger = trigger;
+    }
+
     SnippetGenerator sg = new SnippetGenerator();
 
     public String getName() {
@@ -55,17 +63,20 @@ public class Snippet {
 
         String resourceConfig = "";
         String resource = "";
-        this.code = resourceConfig + CommonUtil.LINE_SEPARATOR + resource ;
+        //this.code = resourceConfig + CommonUtil.LINE_SEPARATOR + resource ;
 
-//        String resourceConfig = "@http:ResourceConfig {" + CommonUtil.LINE_SEPARATOR +
-//                                "\tmethods: [\"GET\"]," + CommonUtil.LINE_SEPARATOR +
-//                                "\tpath: \"/\"" + CommonUtil.LINE_SEPARATOR + "}";
-//
-//        String resource = "resource function listBuckets(http:Caller caller, http:Request request) {"
-//                          + CommonUtil.LINE_SEPARATOR + "\t${1}" + CommonUtil.LINE_SEPARATOR + "}";
-//
-//        String snippet = resourceConfig + CommonUtil.LINE_SEPARATOR + resource;
+        //resourceConfig = "@http:ResourceConfig {" + CommonUtil.LINE_SEPARATOR  ;
 
+
+
+
+//    public static SnippetsBlock getHttpResourceDefinitionSnippet() {
+//        ImmutablePair<String, String> httpImport = new ImmutablePair<>("ballerina", "http");
+//        String snippet = "resource function ${1:newResource}(http:Caller ${2:caller}, ${3:http:Request request}) {"
+//                + CommonUtil.LINE_SEPARATOR + "\t${4}" + CommonUtil.LINE_SEPARATOR + "}";
+//        return new SnippetsBlock(ItemResolverConstants.RESOURCE, snippet, ItemResolverConstants.SNIPPET_TYPE,
+//                                SnippetsBlock.SnippetType.SNIPPET, httpImport);
+//    }
 
     }
 }
