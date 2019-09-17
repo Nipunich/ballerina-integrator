@@ -30,7 +30,7 @@ public class SnippetsGen {
      *
      * @return {@link SnippetsBlock}     Generated Snippet Block
      */
-    public static SnippetsBlock HTTPRESOURCEDEFINITIONSNIPPET() {
+    public static SnippetsBlock HTTPRESOURCEDEFINITION() {
         String snippet = "type ${1:RecordName} record {" + CommonUtil.LINE_SEPARATOR + "\t${2}"
                 + CommonUtil.LINE_SEPARATOR + "};";
 
@@ -43,7 +43,7 @@ public class SnippetsGen {
      *
      * @return {@link SnippetsBlock}     Generated Snippet Block
      */
-    public static SnippetsBlock SAMPLESNIPPET() {
+    public static SnippetsBlock SAMPLE() {
         ImmutablePair<String, String> httpImport = new ImmutablePair<>("ballerina", "http");
         String snippet = "resource function ${1:newResource}(http:Caller ${2:caller}, ${3:http:Request request}) {"
                 + CommonUtil.LINE_SEPARATOR + "\t${4}" + CommonUtil.LINE_SEPARATOR + "}";
@@ -56,7 +56,7 @@ public class SnippetsGen {
      *
      * @return {@link SnippetsBlock}     Generated Snippet Block
      */
-    public static SnippetsBlock RESOURCEDEFINITIONSNIPPET() {
+    public static SnippetsBlock RESOURCEDEFINITION() {
         ImmutablePair<String, String> httpImport = new ImmutablePair<>("ballerina", "http");
         String snippet = "service ${1:serviceName} on new http:Listener(8080) {"
                 + CommonUtil.LINE_SEPARATOR + "\tresource function ${2:newResource}(http:Caller ${3:caller}, "

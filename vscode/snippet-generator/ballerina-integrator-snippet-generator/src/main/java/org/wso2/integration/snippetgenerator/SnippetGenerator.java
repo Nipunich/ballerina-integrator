@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class SnippetGenerator {
-   public static int readFile(String inputDir) throws Exception {
+    public static int readFile(String inputDir) throws Exception {
 
         File f = new File(inputDir);
         ArrayList<File> filesArr = new ArrayList<File>(Arrays.asList(f.listFiles()));
@@ -58,15 +58,17 @@ public class SnippetGenerator {
         String sImports = "";
         String sTrigger = "";
         String sCode = "";
+        String sSnip = "";
 
         ArrayList<String> snippetsNameArr = new ArrayList<>();
         ArrayList<String> snippetsImportsArr = new ArrayList<>();
         ArrayList<String> snippetsTriggerArr = new ArrayList<>();
         ArrayList<String> snippetsArr = new ArrayList<>();
+        ArrayList<String> snipArr = new ArrayList<>();
         HashMap<String, ArrayList> snipMap = new HashMap<String, ArrayList>();
 
         for (int i = 0; i < size; i++) {
-            sName = (String) mp.get("SnippetName " + i);
+            sName = (String) mp.get("SName " + i);
             sName = sName.toUpperCase();
             snippetsNameArr.add(sName);
 
@@ -76,24 +78,24 @@ public class SnippetGenerator {
             sTrigger = (String) mp.get("Trigger " + i);
             snippetsTriggerArr.add(sTrigger);
 
+            sSnip = (String) mp.get("Snippet " + i);
+            snipArr.add(sSnip);
+
             sCode = (String) mp.get("SnippetGen" + i);
-            snippetsArr.add(sCode);
+            snippetsArr.add(sSnip + sCode);
 
-            sCode = (String) mp.get("Snippet" + i);
-            snippetsArr.add(sCode);
-
-            System.out.println("Name :" + sName);
-            System.out.println("Imports :" + sImports);
-            System.out.println("Trigger :" + sTrigger);
-            System.out.println("Code :" + sCode);
-           // System.out.println("Service" + );
+//            System.out.println("Name :" + sName);
+//            System.out.println("Imports :" + sImports);
+//            System.out.println("Trigger :" + sTrigger);
+//            System.out.println("Code :" + sCode);
+//            System.out.println("Snippet :" + (sSnip + sCode));
 
             Snippet snp = new Snippet(sName, sImports, sTrigger, sCode);
 
             snp.setName(sName);
             snp.setImports(sImports);
             snp.setTrigger(sTrigger);
-            snp.setCode(sCode);
+            snp.setCode(sSnip + sCode);
         }
 
         snipMap.put("Name", snippetsNameArr);
@@ -102,9 +104,8 @@ public class SnippetGenerator {
         snipMap.put("Code", snippetsArr);
 
         generateItemResolver(snipMap, sTrigger);
-        //generateSnippetName(snipMap, sTrigger);
-        // generateSnippetContent(snipMap, sTrigger);
     }
+
 
     public static void generateItemResolver(HashMap hs, String trigg) throws Exception {
         File sourceFile = new File("vscode/snippet-generator/ballerina-integrator-snippet-generator/OutFolder/ItemResolverConstants.java");
@@ -150,13 +151,13 @@ public class SnippetGenerator {
         boolean success = compiler.getTask(null, fileManager, null, null, null, fileManager.getJavaFileObjectsFromFiles(Arrays.asList(sourceFile))).call();
         fileManager.close();
 
-       generateSnippetName(hs);
-       generateSnippetContent(hs);
+        generateSnippetName(hs);
+        //generateSnippetContent(hs);
     }
 
 
     public static void generateSnippetName(HashMap hs) throws Exception {
-       File sourceFile2 = new File("vscode/snippet-generator/ballerina-integrator-snippet-generator/OutFolder1/Snippets.java");
+        File sourceFile2 = new File("vscode/snippet-generator/ballerina-integrator-snippet-generator/OutFolder1/Snippets.java");
 
         ArrayList snippetArr = new ArrayList();
         snippetArr = (ArrayList) hs.get("Name");
@@ -204,17 +205,20 @@ public class SnippetGenerator {
         // Compile the file
         boolean success = compiler.getTask(null, fileManager, null, null, null, fileManager.getJavaFileObjectsFromFiles(Arrays.asList(sourceFile2))).call();
         fileManager.close();
+
+        generateSnippetContent(hs);
     }
 
 
     // Generate Snippet Content
 
-        public static void generateSnippetContent(HashMap hs) throws Exception {
-        File file = new File("vscode/snippet-generator/ballerina-integrator-snippet-generator/OutFolder2/SnippetsCont.java");
+    public static void generateSnippetContent(HashMap hs) throws Exception {
+        File sourceFile3 = new File("vscode/snippet-generator/ballerina-integrator-snippet-generator/OutFolder2/SnippetsContent.java");
 
         ArrayList codeArr = new ArrayList();
         ArrayList nameArr = new ArrayList();
         ArrayList importArr = new ArrayList();
+        ArrayList splitImports = new ArrayList();
 
 
         codeArr = (ArrayList) hs.get("Code");
@@ -223,59 +227,69 @@ public class SnippetGenerator {
 
         String content = "";
 
-        if (file.exists()) {
-            file.delete();
+        if (sourceFile3.exists()) {
+            sourceFile3.delete();
         }
 
-        file.createNewFile();
+        sourceFile3.createNewFile();
 
-        String content1 = "package org.wso2.integration.ballerinalangserver;\n" + "\n" + "//import integration.ballerinalang.langserver.SnippetsBlock.SnippetType;\n" + "import org.apache.commons.lang3.tuple.ImmutablePair;\n" + "import org.ballerinalang.langserver.common.utils.CommonUtil;\n" + "\n" + "public class SnippetsGenerator {\n" + "\n" + "    private SnippetsGenerator() {\n" + "    } ";
+        String content2 = "package org.wso2.integration.ballerinalangserver;\n" + "\n" + "//import integration.ballerinalang.langserver.SnippetsBlock.SnippetType;\n" + "import org.apache.commons.lang3.tuple.ImmutablePair;\n" + "import org.ballerinalang.langserver.common.utils.CommonUtil;\n" + "import org.wso2.integration.snippetgenerator.SnippetsBlock;" + "\n" + "\n"+ "\n" + "public class SnippetsContent {\n" + "\n" + "    private SnippetsContent() {\n" + "    } ";
 
         String snipPart1 = "";
         String snipPart2 = "";
         String snipPart3 = "";
         String snipPart4 = "";
+        String fSnip = "";
+        String content1 = "";
+        String content3 = "";
 
         for (int i = 0; i < codeArr.size(); i++) {
-            String co = (String) codeArr.get(i);
+            String co = codeArr.get(i).toString();
             String na = (String) nameArr.get(i);
             String im = (String) importArr.get(i);
 
+            snipPart1 = "\n" + "\n" + "public static SnippetsBlock " + na.toLowerCase() + " {";
             String[] imArr = im.split(",");
-            String val1 = imArr[0];
-            String val2 = imArr[1];
-            String[] splitArr = val2.split("/");
-            String spPart1 = splitArr[1];
 
-            snipPart1 = "\n" + "\n" + "public static SnippetsBlock get" + na.toLowerCase() + "{" + "\n" + "\t\t" + "ImmutablePair<String, String> httpImport" + "= new ImmutablePair<>(" + "\"" + "ballerina" + "\"" + "," + "\"" + spPart1 + ");";
+            for (int j = 0; j < imArr.length; j++) {
+                String[] x = ((imArr[j].toString()).split("/"));
+                splitImports.add(x[1]);
+            }
 
-            snipPart3 = "    public static SnippetsBlock getHttpResourceDefinitionSnippet() {\n" + "        ImmutablePair<String, String> httpImport = new ImmutablePair<>(\"ballerina\", \"http\");\n" + "        String snippet = \"resource function ${1:newResource}(http:Caller ${2:caller}, ${3:http:Request request}) {\"\n" + "                + CommonUtil.LINE_SEPARATOR + \"\\t${4}\" + CommonUtil.LINE_SEPARATOR + \"}\";\n" + "        return new SnippetsBlock(ItemResolverConstants.RESOURCE, snippet, ItemResolverConstants.SNIPPET_TYPE,\n" + "                                SnippetsBlock.SnippetType.SNIPPET, httpImport);\n" + "    }\n" + "\n" + "    resource function ${newResource}(grpc:Caller caller, string request) {\n" + "\n" + "\n" + "    }\n" + "}\"";
-
-            //snipPart2 = ;
-            String[] ind = na.split("\\(");
-            na = ind[0];
-            co = na + "" + " =" + co;
+            for (int k = 0; k < splitImports.size(); k++) {
+                snipPart2 = snipPart2 + "ImmutablePair<String, String> imports" + k + " = new ImmutablePair<> (\"ballerina\"" + "," + "\"" + splitImports.get(k) + ")" + ";" + "\n";
 
 
-            content = content + "\n" + co + ";";
+            }
+            snipPart3 = "String snippet =  " + co;
+
+            snipPart4 = "  return new SnippetsBlock(\"type <RecordName> record\", snippet, \"Snippet\",\n" + "                                SnippetsBlock.SnippetType.SNIPPET);" ;
+
+            content1 = snipPart1 + snipPart2 + snipPart3 + snipPart4 + "}";
+            //+ "}"
+
+
+            fSnip = fSnip + content1;
+
         }
 
-        // content1 = content1 + "\n" + content + "\n" + "\n" + "}";
 
-        content1 = content1 + snipPart1 + snipPart3;
+        content3 = content2 + "\n" + fSnip + "\n" + "}";
+
 
         System.out.println("File is created!");
 
-        try {
-            FileWriter fw = new FileWriter(file, true);
-            fw.write(content1);
-            fw.close();
-        } catch (IOException ioe) {
-            System.err.println("IOException: " + ioe.getMessage());
-        }
+        FileWriter writer = new FileWriter(sourceFile3);
+        writer.write(content3);
+        writer.close();
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
+
+        fileManager.setLocation(StandardLocation.CLASS_OUTPUT, Arrays.asList(new File("vscode/snippet-generator/ballerina-integrator-snippet-generator/OutFolder2/")));
+        // Compile the file
+        boolean success = compiler.getTask(null, fileManager, null, null, null, fileManager.getJavaFileObjectsFromFiles(Arrays.asList(sourceFile3))).call();
+        fileManager.close();
     }
-
-
 
 
     public static void main(String[] args) throws Exception {

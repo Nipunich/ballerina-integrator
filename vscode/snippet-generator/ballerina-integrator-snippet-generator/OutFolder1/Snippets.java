@@ -10,9 +10,7 @@ import org.wso2.integration.snippetgenerator.SnippetsBlock;
 public enum Snippets {
  
 
-  HTTPRESOURCEDEFINITIONSNIPPET(SnippetsGen.HTTPRESOURCEDEFINITIONSNIPPET()),
- SAMPLESNIPPET(SnippetsGen.SAMPLESNIPPET()),
-  RESOURCEDEFINITIONSNIPPET(SnippetsGen.RESOURCEDEFINITIONSNIPPET());
+  RESOURCEDEFINITION(SnippetsGen.RESOURCEDEFINITION());
 
 private String snippetName;
     private SnippetsBlock snippetBlock;
