@@ -1,0 +1,7 @@
+Name -  ResourceDefinition22()
+Trigger - "service/https"
+Imports - "ballerina/https", "ballerina/websub"
+Snippet -  "service ${serviceName} on new grpc:Listener(9096) {\n" +
+    "resource function ${newResource}(grpc:Caller caller, string request) {\n" +
+    "}\n" +
+    "}\n";

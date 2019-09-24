@@ -84,7 +84,6 @@
             </executions>
             <configuration>
                <executable>${project-home}/resources/run${script.extension}</executable>
-               <skip>true</skip>
             </configuration>
          </plugin>
       </plugins>
@@ -106,6 +105,8 @@
       <module>www</module>
       <module>vscode/extension</module>
       <module>vscode/snippet-generator</module>
+      <module>vscode/snippet-generator/snippets</module>
+       <module>fggg</module>
    </modules>
    <dependencyManagement>
       <dependencies>
@@ -186,7 +187,7 @@
         <maven.checkstyleplugin.excludes>**/SourceGen.java</maven.checkstyleplugin.excludes>
         <maven.spotbugsplugin.exclude.file>spotbugs-exclude.xml</maven.spotbugsplugin.exclude.file>
 
-        <ballerina.version>1.0.0-alpha</ballerina.version>
+        <ballerina.version>1.0.0</ballerina.version>
         <lsp4j.version>0.6.0</lsp4j.version>
         <apache.commons.io.version>2.6</apache.commons.io.version>
         <ballerina.lang.compiler.version>1.0.0-alpha</ballerina.lang.compiler.version>
@@ -204,5 +205,10 @@
 
         <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
         <apache.source.release.assembly.descriptor.version>1.0.6</apache.source.release.assembly.descriptor.version>
+
+        <slf4j.version>2.0.0-alpha0</slf4j.version>
+        <playground.api.version>0.970.0-alpha1-SNAPSHOT</playground.api.version>
+        <cellery.observability.version>0.3.2-SNAPSHOT</cellery.observability.version>
+        <composer.server.distribution.version>0.982.1-SNAPSHOT</composer.server.distribution.version>
     </properties>
 </project>

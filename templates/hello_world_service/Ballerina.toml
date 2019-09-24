@@ -8,3 +8,5 @@ repository= "https://github.com/wso2/ballerina-integrator"
 templates= ["hello_world_service"]
 
 [dependencies]
+
+

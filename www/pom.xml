@@ -23,7 +23,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.wso2.integration.ballerina.SiteBuilder</mainClass>
+                            <mainClass>org.wso2.org.wso2.integration.ballerina.SiteBuilder</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

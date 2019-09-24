@@ -25,6 +25,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.integration.ballerina.utils.ServiceException;
+import org.wso2.integration.ballerina.utils.Utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -38,7 +39,6 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.logging.Level;
 
 import static org.wso2.integration.ballerina.constants.Constants.BALLERINA_TOML;
 import static org.wso2.integration.ballerina.constants.Constants.CLOSE_CURLY_BRACKET;
@@ -59,19 +59,6 @@ import static org.wso2.integration.ballerina.constants.Constants.OPEN_CURLY_BRAC
 import static org.wso2.integration.ballerina.constants.Constants.README_MD;
 import static org.wso2.integration.ballerina.constants.Constants.TEMP_DIR;
 import static org.wso2.integration.ballerina.constants.Constants.TEMP_DIR_MD;
-import static org.wso2.integration.ballerina.utils.Utils.copyDirectoryContent;
-import static org.wso2.integration.ballerina.utils.Utils.createDirectory;
-import static org.wso2.integration.ballerina.utils.Utils.createFile;
-import static org.wso2.integration.ballerina.utils.Utils.deleteDirectory;
-import static org.wso2.integration.ballerina.utils.Utils.deleteFile;
-import static org.wso2.integration.ballerina.utils.Utils.getCodeFile;
-import static org.wso2.integration.ballerina.utils.Utils.getCommitHash;
-import static org.wso2.integration.ballerina.utils.Utils.getCurrentDirectoryName;
-import static org.wso2.integration.ballerina.utils.Utils.getMarkdownCodeBlockWithCodeType;
-import static org.wso2.integration.ballerina.utils.Utils.getPostFrontMatter;
-import static org.wso2.integration.ballerina.utils.Utils.getZipFileName;
-import static org.wso2.integration.ballerina.utils.Utils.isDirEmpty;
-import static org.wso2.integration.ballerina.utils.Utils.removeLicenceHeader;
 
 /**
  * Main class of the site creator project.
@@ -89,13 +76,13 @@ public class SiteBuilder {
             // Get current commit hash.
             commitHash = siteBuilder.getCommitHashByReadingGitProperties();
             // First delete already created mkdocs-content directory.
-            deleteDirectory(MKDOCS_CONTENT);
+            Utils.deleteDirectory(MKDOCS_CONTENT);
             // Create needed directory structure.
-            createDirectory(TEMP_DIR);
-            createFile(TEMP_DIR + File.separator + "temp.txt");
-            createDirectory(MKDOCS_CONTENT);
+            Utils.createDirectory(TEMP_DIR);
+            Utils.createFile(TEMP_DIR + File.separator + "temp.txt");
+            Utils.createDirectory(MKDOCS_CONTENT);
             // Get a copy of examples directory.
-            copyDirectoryContent(DOCS_DIR, TEMP_DIR);
+            Utils.copyDirectoryContent(DOCS_DIR, TEMP_DIR);
             // Process repository to generate guide templates.
             processDirectory(TEMP_DIR);
             // Zip Ballerina projects.
@@ -105,11 +92,11 @@ public class SiteBuilder {
             // Delete empty directories.
             deleteEmptyDirs(TEMP_DIR);
             // Copy tempDirectory content to mkdocs content directory.
-            copyDirectoryContent(TEMP_DIR, MKDOCS_CONTENT);
+            Utils.copyDirectoryContent(TEMP_DIR, MKDOCS_CONTENT);
         } catch (ServiceException e) {
             logger.error(e.getMessage(), e);
         } finally {
-            deleteDirectory(TEMP_DIR);
+            Utils.deleteDirectory(TEMP_DIR);
         }
     }
 
@@ -163,7 +150,7 @@ public class SiteBuilder {
                     readMeFileContent = readMeFileContent.replace(line, getIncludeCodeSegment(file.getParent(), line));
                 } else if (lineNumber == 1 && line.contains(HASH)) {
                     // Adding front matter to posts.
-                    readMeFileContent = readMeFileContent.replace(line, getPostFrontMatter(line, commitHash));
+                    readMeFileContent = readMeFileContent.replace(line, Utils.getPostFrontMatter(line, commitHash));
                 }
             }
             IOUtils.write(readMeFileContent, new FileOutputStream(file), String.valueOf(StandardCharsets.UTF_8));
@@ -179,7 +166,7 @@ public class SiteBuilder {
      */
     private static void renameReadmeFile(File file) {
         if (file.getName().equals(README_MD)) {
-            String mdFileName = file.getParent() + File.separator + getCurrentDirectoryName(file.getParent()) + ".md";
+            String mdFileName = file.getParent() + File.separator + Utils.getCurrentDirectoryName(file.getParent()) + ".md";
             // If directory name is "tempDirectory", not renaming the file.
             if (!mdFileName.contains(TEMP_DIR_MD) && !file.renameTo(new File(mdFileName))) {
                 throw new ServiceException("Renaming README.md failed. file:" + file.getPath());
@@ -197,8 +184,8 @@ public class SiteBuilder {
     private static String getIncludeCodeFile(String readMeParentPath, String line) {
         String fullPathOfIncludeCodeFile = readMeParentPath + getIncludeFilePathFromIncludeCodeLine(line);
         File includeCodeFile = new File(fullPathOfIncludeCodeFile);
-        String code = removeLicenceHeader(getCodeFile(includeCodeFile, readMeParentPath)).trim();
-        return getMarkdownCodeBlockWithCodeType(fullPathOfIncludeCodeFile, code);
+        String code = Utils.removeLicenceHeader(Utils.getCodeFile(includeCodeFile, readMeParentPath)).trim();
+        return Utils.getMarkdownCodeBlockWithCodeType(fullPathOfIncludeCodeFile, code);
     }
 
     /**
@@ -221,10 +208,10 @@ public class SiteBuilder {
         String segment = tempDataArr[1].replace("segment:", EMPTY_STRING).trim();
 
         File includeCodeFile = new File(fullPathOfIncludeCodeFile);
-        String codeFileContent = removeLicenceHeader(getCodeFile(includeCodeFile, readMeParentPath));
+        String codeFileContent = Utils.removeLicenceHeader(Utils.getCodeFile(includeCodeFile, readMeParentPath));
 
         String code = getCodeSegment(codeFileContent, segment).trim();
-        return getMarkdownCodeBlockWithCodeType(fullPathOfIncludeCodeFile, code);
+        return Utils.getMarkdownCodeBlockWithCodeType(fullPathOfIncludeCodeFile, code);
     }
 
     /**
@@ -266,7 +253,7 @@ public class SiteBuilder {
             for (File file : listOfFiles) {
                 if (file.isFile()) {
                     if (isUnwanted(file)) {
-                        deleteFile(file);
+                        Utils.deleteFile(file);
                     }
                 } else if (file.isDirectory()) {
                     deleteUnwantedFiles(file.getPath());
@@ -316,7 +303,7 @@ public class SiteBuilder {
      * @param file file should be deleted
      */
     private static void deleteEmptyDirsAndParentDirs(File file) {
-        if (file != null && isDirEmpty(file)) {
+        if (file != null && Utils.isDirEmpty(file)) {
             try {
                 Files.delete(Paths.get(file.getPath()));
                 deleteEmptyDirsAndParentDirs(file.getParentFile());
@@ -337,7 +324,7 @@ public class SiteBuilder {
         InputStream inputStream = classLoader.getResourceAsStream(GIT_PROPERTIES_FILE);
         if (inputStream != null) {
             try {
-                String gitCommitHash = getCommitHash(inputStream);
+                String gitCommitHash = Utils.getCommitHash(inputStream);
                 if (gitCommitHash == null) {
                     throw new ServiceException("git commit id is null.");
                 }
@@ -364,7 +351,7 @@ public class SiteBuilder {
                 if (file.isFile() && (file.getName().equals(BALLERINA_TOML))) {
                     // Zip parent folder since this is a Ballerina project.
                     try {
-                        new ZipFile(getZipFileName(file)).addFolder(new File(file.getParentFile().getPath()));
+                        new ZipFile(Utils.getZipFileName(file)).addFolder(new File(file.getParentFile().getPath()));
                     } catch (ZipException e) {
                         throw new ServiceException("Error when zipping the directory: "
                                 + file.getParentFile().getPath(), e);
