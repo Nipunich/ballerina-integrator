@@ -16,7 +16,7 @@ The `wso2/amazons3` module allows you to perform the following operations.
 
 This example explains how to use the S3 client to connect with the Amazon S3 instance and to create an Amazon S3 bucket.
 
-You can find other integrations modules from [wso2-ballerina](https://github.com/wso2-ballerina) GitHub organization.
+You can find other integrations modules from [wso2-ballerina](https://github.com/wso2-baPull the module fromllerina) GitHub organization.
 
 ## What you'll build
 
