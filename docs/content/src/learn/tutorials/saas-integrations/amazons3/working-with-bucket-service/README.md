@@ -1,42 +1,43 @@
-Guide on Amazon S3 Bucket Service 
-
-# Guide Overview
+# Amazon S3 Bucket Service
 
 ## About
 
 Ballerina is an open-source programming language that empowers developers to integrate their system easily with the 
-support of connectors. In this guide, we are mainly focusing on connecting to the Amazon Simple Storage Service API to create, store,download, and use data with other services.  
+support of connectors. In this guide, we are mainly focusing on connecting to the Amazon Simple Storage Service API to create, store, download, and use data with other services.  
 
 The `wso2/amazons3` module allows you to perform the following operations.
+* Create Bucket
+* List Buckets
+* Create Object
+* List Objects
+* Get Object
+* Delete Object
+* Delete Bucket
 
-This example explains how to use the S3 client to connect with the Amazon S3 instance and to create a Amazon S3 bucket.
+This example explains how to use the S3 client to connect with the Amazon S3 instance and to create an Amazon S3 bucket.
 
 You can find other integrations modules from [wso2-ballerina](https://github.com/wso2-ballerina) GitHub organization.
 
 ## What you'll build
 
-This application connects with the Amazon S3 API and create a new bucket on Amazon S3 instance with the provided name, get the available buckets and delete the specified bucket.
+This application connects with the Amazon S3 API and creates a new bucket on Amazon S3 instance with the provided name, gets the available buckets and deletes the specified bucket.
 
-![exposing Amazon S3 as a service](../../../../../assets/img/amazon-s3-bucket-service)
+![working with Amazon S3 bucket service](../../../../../assets/img/amazon-s3-bucket-service.png)
 
-## Prerequisites
+<!-- INCLUDE_MD: ../../../../../tutorial-prerequisites.md -->
 
-- [Java](https://www.oracle.com/technetwork/java/index.html)
-- Ballerina Integrator
-- A Text Editor or an IDE
-> **Tip**: For a better development experience, install the Ballerina Integrator extension in [VS Code](https://code.visualstudio.com).
-- Link to download Ballerina Integrator.
+<!-- INCLUDE_MD: ../../../../../tutorial-get-the-code.md -->
 
 ## Implementation
 
 A Ballerina project is created for the integration use case explained above. Please follow the steps given 
 below to create the project and modules. You can learn about the Ballerina project and modules in this 
-[guide](../../../../../develop/managing-ballerina-code/).
+[guide](https://ei.docs.wso2.com/en/latest/ballerina-integrator/develop/using-modules/#creating-a-project).
 
 #### 1. Create a new project.
 
 ```bash
-$ ballerina new amazon-s3-bucket-service
+$ ballerina new working-with-bucket-service
 ```
 
 #### 2. Create a module.
@@ -48,7 +49,7 @@ $ ballerina add integration-with-amazon-s3-bucket
 The project structure is created as indicated below.
 
 ```
-amazon-s3-bucket-service
+working-with-bucket-service
     ├── Ballerina.toml
     └── src
         └── integration-with-amazon-s3-bucket
@@ -67,7 +68,6 @@ amazon-s3-bucket-service
         - To create a new secret access key for your root account, use the [security credentials](https://console.aws.amazon.com/iam/home?#security_credential) page. Expand the Access Keys section, and then click Create New Root Key.
 
 -  To create a new secret access key for an IAM user, open the [IAM console](https://console.aws.amazon.com/iam/home?region=us-east-1#home). Click **Users** in the **Details** pane, click the appropriate IAM user, and then click **Create Access Key** on the **Security Credentials** tab.
-   
 - Download the newly created credentials, when prompted to do so in the key creation wizard.
 
  ![Amazon S3 Guide Implementation](resources/s3_connector_guide_implementation.svg "Amazon S3 Guide Implementation")
@@ -87,7 +87,7 @@ TRUST_STORE_PATH="<Truststore file location>"<br/>
 TRUST_STORE_PASSWORD="<Truststore password>"<br/>
 ```
 
-#### 6. Write the integration
+#### 5. Write the integration
 Open the project with VS Code. The integration implementation is written in the `src/integration-with-amazon-s3-bucket/main.bal` file.
 
 <!-- INCLUDE_CODE: src/integration-with-amazon-s3-bucket/main.bal -->

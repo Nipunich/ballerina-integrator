@@ -1,4 +1,4 @@
-Guide on Amazon S3 Object Service 
+Guide on working with Amazon S3 Object Service 
 
 # Guide Overview 
 
@@ -17,7 +17,7 @@ You can find other integrations modules from [wso2-ballerina](https://github.com
 
 This application connects with the Amazon S3 API and create a new object in an Amazon S3 bucket, list the available objects in the bucket, display the object content and delete a specified object in the bucket.
 
-![exposing Amazon S3 as a service](../../../../../assets/img/amazon-s3-object-service.jpg)
+![working with Amazon S3 Object](../../../../../../../assets/img/amazon-s3-object-service.png)
 
 ## Prerequisites
 
@@ -31,7 +31,7 @@ This application connects with the Amazon S3 API and create a new object in an A
 
 A Ballerina project is created for the integration use case explained above. Please follow the steps given 
 below to create the project and modules. You can learn about the Ballerina project and modules in this 
-[guide](../../../../../develop/managing-ballerina-code/).
+[guide](https://ei.docs.wso2.com/en/latest/ballerina-integrator/develop/using-modules/#creating-a-project).
 
 #### 1. Create a new project.
 
@@ -56,9 +56,6 @@ $ ballerina add integration-with-amazon-s3-object
    
 - Download the newly created credentials, when prompted to do so in the key creation wizard.
 
-See the ![Amazon S3 Guide Implementation](resources/s3_connector_guide_implementation.svg "Amazon S3 Guide Implementation")
-
-
 #### 4. Add project configurations file
 
 Add the project configuration file by creating a `ballerina.conf` file under the root path of the project structure. 
@@ -75,8 +72,6 @@ TRUST_STORE_PASSWORD="<Truststore password>"<br/>
 
 #### 5. Write the integration
 Open the project with VS Code. The integration implementation is written in the `src/integration-with-amazon-s3-object/main.bal` file.
-
-<!-- INCLUDE_CODE: src/integration-with-amazon-s3-object/main.bal -->
 
 ## Testing 
 
