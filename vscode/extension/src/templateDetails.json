@@ -30,6 +30,12 @@
         "tags": ["#saas"]
     },
     {
+        "id": "googlespreadsheet_service",
+        "name": "Working with SpreadSheet Connector",
+        "description": "This template demonstrates on handling spreadsheets using the Ballerina Google SpreadSheet connector.",
+        "tags": ["#saas"]
+    },
+    {
         "id": "integration_with_amazon_s3_bucket",
         "name": "Working with AmazonS3 Bucket",
         "description": "This template demonstrates on connecting to AmazonS3 Client to perform operations on buckets.",
@@ -69,12 +75,6 @@
         "id": "querying_mysql_database",
         "name": "Querying a MySQL Database",
         "description": "This template focuses on exposing a MySQL database as a service using Ballerina.",
-        "tags": ["#database"]
-    },
-    {
-        "id": "sending_a_message_to_datasource",
-        "name": "Sending a Message to a Datasource",
-        "description": "This template demonstrates on exposing information in the database through a RESTful service.",
         "tags": ["#database"]
     },
     {
